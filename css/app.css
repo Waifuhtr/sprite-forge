@@ -1,0 +1,469 @@
+/* app.css — Stardew Sprite Forge design system.
+   Tailwind (via CDN + inline config in index.html) handles layout, spacing,
+   and color utilities. This file covers the bits Tailwind's utility classes
+   can't: pixel-perfect image rendering, the checkerboard transparency grid,
+   the "lightbox" stage glow, and a handful of small stateful components. */
+
+@font-face { font-display: swap; }
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background: #17141F;
+}
+
+/* Faint scanline-free grain so the flat dark background doesn't feel dead. */
+#app {
+  background-image: radial-gradient(circle at 15% 0%, rgba(232, 162, 61, 0.05), transparent 45%),
+                     radial-gradient(circle at 85% 100%, rgba(111, 169, 107, 0.05), transparent 45%);
+}
+
+/* Pixel-perfect rendering, mandatory anywhere sprite pixels are shown. */
+.pixelated {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* Custom dark scrollbars */
+* { scrollbar-color: #3A3350 #221D2E; scrollbar-width: thin; }
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-track { background: #221D2E; }
+*::-webkit-scrollbar-thumb { background: #3A3350; border-radius: 6px; }
+*::-webkit-scrollbar-thumb:hover { background: #E8A23D; }
+
+/* ---------------------------------------------------------------- header */
+
+.ssf-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.9rem 1.25rem;
+  background: #221D2E;
+  border-bottom: 1px solid #3A3350;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+
+.ssf-wordmark {
+  font-family: "Press Start 2P", cursive;
+  font-size: 0.6rem;
+  line-height: 1.5;
+  color: #E8A23D;
+  letter-spacing: 0.02em;
+  text-shadow: 0 0 12px rgba(232, 162, 61, 0.35);
+}
+
+.ssf-footer {
+  text-align: center;
+  font-size: 0.7rem;
+  color: #6E6488;
+  padding: 1.25rem 1rem 2rem;
+  line-height: 1.6;
+}
+
+/* ------------------------------------------------------------- tab nav */
+
+.ssf-tab-nav {
+  display: flex;
+  gap: 0.25rem;
+  overflow-x: auto;
+  padding: 0 1rem;
+  background: #1c1828;
+  border-bottom: 1px solid #3A3350;
+}
+
+.ssf-tab {
+  padding: 0.65rem 0.9rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #A79BC2;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.ssf-tab:hover { color: #F1EAD8; }
+
+.ssf-tab-active {
+  color: #E8A23D;
+  border-bottom-color: #E8A23D;
+}
+
+.ssf-view { animation: ssf-fade-in 0.18s ease; }
+
+@keyframes ssf-fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --------------------------------------------------------------- cards */
+
+.ssf-card {
+  background: #221D2E;
+  border: 1px solid #3A3350;
+  border-radius: 14px;
+  padding: 1rem;
+}
+
+.ssf-card-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #F1EAD8;
+  margin-bottom: 0.6rem;
+}
+
+.ssf-label {
+  display: block;
+  font-size: 0.7rem;
+  color: #A79BC2;
+  margin-bottom: 0.2rem;
+}
+
+/* ---------------------------------------------------------- form fields */
+
+.ssf-input, .ssf-select {
+  background: #17141F;
+  border: 1px solid #3A3350;
+  border-radius: 8px;
+  padding: 0.4rem 0.55rem;
+  font-size: 0.8rem;
+  color: #F1EAD8;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.ssf-input:focus, .ssf-select:focus { border-color: #E8A23D; }
+
+.ssf-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 4px;
+  background: #3A3350;
+  outline: none;
+}
+
+.ssf-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #E8A23D;
+  cursor: pointer;
+  border: 2px solid #17141F;
+}
+
+.ssf-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #E8A23D;
+  cursor: pointer;
+  border: 2px solid #17141F;
+}
+
+/* ------------------------------------------------------------- buttons */
+
+.ssf-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 8px;
+  background: #2C2540;
+  border: 1px solid #3A3350;
+  color: #F1EAD8;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background 0.15s ease, transform 0.1s ease, border-color 0.15s ease;
+}
+
+.ssf-btn:hover { background: #3A3350; border-color: #E8A23D; }
+.ssf-btn:active { transform: translateY(1px); }
+.ssf-btn:disabled { opacity: 0.4; pointer-events: none; }
+
+.ssf-btn-primary {
+  background: #E8A23D;
+  border-color: #E8A23D;
+  color: #17141F;
+}
+
+.ssf-btn-primary:hover { background: #f3b25a; border-color: #f3b25a; }
+
+.ssf-icon-btn {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: transparent;
+  color: #A79BC2;
+  flex-shrink: 0;
+}
+
+.ssf-icon-btn:hover { background: #3A3350; color: #F1EAD8; }
+.ssf-icon-btn:disabled { opacity: 0.25; pointer-events: none; }
+
+.ssf-chip {
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background: #2C2540;
+  border: 1px solid #3A3350;
+  color: #A79BC2;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.ssf-chip:hover { color: #F1EAD8; }
+
+.ssf-chip-active {
+  background: #E8A23D;
+  border-color: #E8A23D;
+  color: #17141F;
+}
+
+/* ---------------------------------------------------- language toggle */
+
+.ssf-lang-toggle {
+  display: inline-flex;
+  border: 1px solid #3A3350;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.ssf-lang-btn {
+  padding: 0.35rem 0.6rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #A79BC2;
+  background: #221D2E;
+}
+
+.ssf-lang-btn:hover { color: #F1EAD8; }
+
+.ssf-lang-btn-active {
+  background: #E8A23D;
+  color: #17141F;
+}
+
+/* --------------------------------------------------------- the stage */
+
+.ssf-lightbox {
+  padding: 10px;
+  border-radius: 14px;
+  background: linear-gradient(145deg, #2C2540, #221D2E);
+  border: 2px solid #B97F2E;
+  box-shadow: 0 0 0 1px rgba(232, 162, 61, 0.15), 0 0 18px rgba(232, 162, 61, 0.18),
+              inset 0 0 20px rgba(0, 0, 0, 0.35);
+  animation: ssf-lantern-glow 3.6s ease-in-out infinite;
+  width: fit-content;
+}
+
+@keyframes ssf-lantern-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 1px rgba(232, 162, 61, 0.15), 0 0 16px rgba(232, 162, 61, 0.16),
+                inset 0 0 20px rgba(0, 0, 0, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 1px rgba(232, 162, 61, 0.28), 0 0 28px rgba(232, 162, 61, 0.32),
+                inset 0 0 20px rgba(0, 0, 0, 0.35);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ssf-lightbox, .ssf-view { animation: none; }
+}
+
+.ssf-lightbox canvas {
+  display: block;
+  max-width: 70vw;
+}
+
+/* Transparency checkerboard — used behind every sprite/asset preview. */
+.ssf-checkerboard {
+  background-color: #1c1828;
+  background-image:
+    linear-gradient(45deg, #2C2540 25%, transparent 25%),
+    linear-gradient(-45deg, #2C2540 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #2C2540 75%),
+    linear-gradient(-45deg, transparent 75%, #2C2540 75%);
+  background-size: 14px 14px;
+  background-position: 0 0, 0 7px, 7px -7px, -7px 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* ------------------------------------------------------------- layers */
+
+.ssf-layer-row {
+  background: #1c1828;
+  border: 1px solid #3A3350;
+  border-radius: 10px;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.ssf-layer-row[draggable="true"] { cursor: grab; }
+.ssf-layer-row:active { cursor: grabbing; }
+
+.ssf-drop-target {
+  border-color: #E8A23D !important;
+  background: #2C2540;
+}
+
+.ssf-drag-handle {
+  color: #6E6488;
+  font-size: 1rem;
+  cursor: grab;
+  padding: 0 0.15rem;
+  flex-shrink: 0;
+}
+
+.ssf-layer-detail {
+  padding: 0.75rem;
+  border-top: 1px dashed #3A3350;
+}
+
+/* -------------------------------------------------------------- gallery */
+
+.ssf-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+  gap: 0.6rem;
+  overflow-y: auto;
+  max-height: 60vh;
+  padding-right: 0.2rem;
+}
+
+.ssf-thumb {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #3A3350;
+  background: #1c1828;
+  transition: border-color 0.15s ease, transform 0.1s ease;
+}
+
+.ssf-thumb:hover { border-color: #E8A23D; transform: translateY(-1px); }
+
+.ssf-thumb-active { border-color: #6FA96B; box-shadow: 0 0 0 1px #6FA96B; }
+
+.ssf-thumb .ssf-checkerboard {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+}
+
+.ssf-thumb img { width: 100%; height: 100%; object-fit: contain; }
+
+.ssf-thumb-label {
+  font-size: 0.65rem;
+  color: #A79BC2;
+  padding: 0.2rem 0.35rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ssf-thumb-delete {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(23, 20, 31, 0.85);
+  color: #C4577A;
+  font-size: 0.8rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.ssf-thumb:hover .ssf-thumb-delete { opacity: 1; }
+
+/* ------------------------------------------------------------ dropzone */
+
+.ssf-dropzone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 1rem;
+  border: 2px dashed #3A3350;
+  border-radius: 12px;
+  color: #A79BC2;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.ssf-dropzone:hover, .ssf-dropzone-active {
+  border-color: #E8A23D;
+  color: #E8A23D;
+  background: rgba(232, 162, 61, 0.06);
+}
+
+/* -------------------------------------------------------------- modals */
+
+.ssf-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 8, 15, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 50;
+}
+
+.ssf-modal {
+  background: #221D2E;
+  border: 1px solid #3A3350;
+  border-radius: 16px;
+  padding: 1.1rem;
+  width: 100%;
+  max-width: 640px;
+  max-height: 88vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* --------------------------------------------------------------- toast */
+
+.ssf-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 1.25rem;
+  transform: translateX(-50%);
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #17141F;
+  background: #F1EAD8;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  z-index: 60;
+  max-width: 90vw;
+}
+
+.ssf-toast-success { background: #6FA96B; color: #0f1a0f; }
+.ssf-toast-warn { background: #E8A23D; color: #17141F; }
+.ssf-toast-error { background: #C4577A; color: #1a0f13; }
+.ssf-toast-info { background: #A79BC2; color: #17141F; }
