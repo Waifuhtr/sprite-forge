@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+<title>Stardew Sprite Forge</title>
+<meta name="description" content="Stardew Valley modding topluluğu için tarayıcı tabanlı, katman destekli sprite ve varlık editörü. / A browser-based, layer-driven sprite & asset editor for the Stardew Valley modding community." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          deep: "#17141F",
+          panel: "#221D2E",
+          raised: "#2C2540",
+          lantern: { DEFAULT: "#E8A23D", dim: "#B97F2E" },
+          moss: { DEFAULT: "#6FA96B", dim: "#4F7A4C" },
+          berry: "#C4577A",
+          ink: { DEFAULT: "#F1EAD8", muted: "#A79BC2", dim: "#6E6488" },
+          line: "#3A3350",
+        },
+        fontFamily: {
+          pixel: ['"Press Start 2P"', "cursive"],
+          sans: ["Inter", "ui-sans-serif", "sans-serif"],
+          mono: ['"IBM Plex Mono"', "ui-monospace", "monospace"],
+        },
+      },
+    },
+  };
+</script>
+
+<!-- Third-party libraries (client-side only — no backend, GitHub Pages friendly) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dexie/3.2.4/dexie.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+<link rel="stylesheet" href="css/app.css" />
+</head>
+<body class="bg-deep text-ink font-sans antialiased">
+
+  <div id="app" class="min-h-screen flex flex-col">
+    <header class="ssf-header">
+      <div class="flex items-center gap-3">
+        <span class="ssf-wordmark">STARDEW<br />SPRITE FORGE</span>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <button data-action="new-project" class="ssf-btn text-xs" data-i18n="common.newProject"></button>
+        <button data-action="save-project" class="ssf-btn text-xs" data-i18n="common.saveProject"></button>
+        <button data-action="load-project" class="ssf-btn text-xs" data-i18n="common.loadProject"></button>
+        <button data-action="export-zip" class="ssf-btn ssf-btn-primary text-xs" data-i18n="exportPanel.zip"></button>
+        <div class="ssf-lang-toggle" data-role="lang-toggle">
+          <button data-action="set-lang" data-lang="tr" class="ssf-lang-btn">TR</button>
+          <button data-action="set-lang" data-lang="en" class="ssf-lang-btn">EN</button>
+        </div>
+      </div>
+    </header>
+
+    <nav class="ssf-tab-nav" data-role="tab-nav">
+      <button data-tab="character" class="ssf-tab" data-i18n="nav.character"></button>
+      <button data-tab="animation" class="ssf-tab" data-i18n="nav.animation"></button>
+      <button data-tab="portrait" class="ssf-tab" data-i18n="nav.portrait"></button>
+      <button data-tab="object" class="ssf-tab" data-i18n="nav.object"></button>
+      <button data-tab="assets" class="ssf-tab" data-i18n="nav.assets"></button>
+    </nav>
+
+    <main class="flex-1 w-full max-w-[1400px] mx-auto p-3 sm:p-5">
+      <div data-view="character" class="ssf-view"></div>
+      <div data-view="animation" class="ssf-view hidden"></div>
+      <div data-view="portrait" class="ssf-view hidden"></div>
+      <div data-view="object" class="ssf-view hidden"></div>
+      <div data-view="assets" class="ssf-view hidden"></div>
+    </main>
+
+    <footer class="ssf-footer">
+      <p data-i18n="app.tagline"></p>
+      <p class="opacity-70" data-i18n="app.disclaimer"></p>
+    </footer>
+  </div>
+
+  <!-- Global overlays: intentionally OUTSIDE the tab views above so they stay
+       visible no matter which tab was active when they were triggered. -->
+  <div data-role="picker-modal"></div>
+  <div data-role="project-modal"></div>
+  <div data-role="status-toast" class="ssf-toast hidden"></div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
